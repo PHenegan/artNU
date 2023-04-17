@@ -1,3 +1,5 @@
+# NOTE: THIS IS FROM THE BOILERPLATE CODE - should be removed eventually
+
 from flask import Blueprint, request, jsonify, make_response
 import json
 from src import db
