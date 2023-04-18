@@ -1,59 +1,59 @@
 -- Restart the database from scratch
-drop database if exists ArtNU;
+DROP DATABASE IF EXISTS ArtNU;
 
 -- Make the new ArtNU database
-create database if not exists ArtNU;
-use ArtNU;
-create table if not exists Clients (
+CREATE DATABASE IF NOT EXISTS ArtNU;
+USE ArtNU;
+CREATE TABLE IF NOT EXISTS Clients (
     clientID    INT PRIMARY KEY,
     firstName   TEXT,
     lastName    TEXT,
     email       VARCHAR(50) NOT NULL UNIQUE
 );
 
-create table if not exists Artists (
-  artistID INT PRIMARY KEY,
-  email TEXT NOT NULL,
-  firstName TEXT NOT NULL,
-  lastName TEXT NOT NULL,
-  bio TEXT,
-  link1 TEXT,
-  link2 TEXT,
-  link3 TEXT,
-  link4 TEXT,
-  termsOfService TEXT NOT NULL
+CREATE TABLE IF NOT EXISTS Artists (
+  artistID          INT PRIMARY KEY,
+  email             TEXT NOT NULL,
+  firstName         TEXT NOT NULL,
+  lastName          TEXT NOT NULL,
+  bio               TEXT,
+  link1             TEXT,
+  link2             TEXT,
+  link3             TEXT,
+  link4             TEXT,
+  termsOfService    TEXT NOT NULL
 );
 
-create table if not exists Tags (
-    tagID INT PRIMARY KEY,
-    name VARCHAR(20) NOT NULL UNIQUE
+CREATE TABLE IF NOT EXISTS Tags (
+    tagID   INT PRIMARY KEY,
+    name    VARCHAR(20) NOT NULL UNIQUE
 );
 
-create table if not exists Licenses (
-    licenseID INT PRIMARY KEY,
-    name VARCHAR(20) NOT NULL UNIQUE
+CREATE TABLE IF NOT EXISTS Licenses (
+    licenseID   INT PRIMARY KEY,
+    name        VARCHAR(20) NOT NULL UNIQUE
 );
 
-create table if not exists CommissionTypes (
+CREATE TABLE if NOT EXISTS CommissionTypes (
     typeID INT PRIMARY KEY,
-    name TEXT,
+    name        TEXT,
     description TEXT,
-    minPrice DOUBLE,
-    maxPrice DOUBLE,
-    licenseID INT NOT NULL,
-    imageID INT NOT NULL,
-    artistID INT NOT NULL,
-    constraint fk_comm_license foreign key (licenseID)
-        references Licenses(licenseID)
-        on update cascade
-        on delete restrict,
-    constraint fk_comm_artist foreign key (artistID)
-        references Artists(artistID)
-        on update cascade
-        on delete restrict
+    minPrice    DOUBLE,
+    maxPrice    DOUBLE,
+    licenseID   INT NOT NULL,
+    imageID     INT NOT NULL,
+    artistID    INT NOT NULL,
+    CONSTRAINT fk_comm_license FOREIGN KEY (licenseID)
+        REFERENCES Licenses(licenseID)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT fk_comm_artist FOREIGN KEY (artistID)
+        REFERENCES Artists(artistID)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
 );
 
-create table if not exists Orders (
+CREATE TABLE IF NOT EXISTS Orders (
     orderID             INT PRIMARY KEY,
     workStatus          VARCHAR(15),
     startDate           DATE,
@@ -65,62 +65,62 @@ create table if not exists Orders (
     typeID              INT NOT NULL,
     clientID            INT NOT NULL,
 
-    constraint fk_orders_client foreign key (clientID)
-        references Clients(clientID)
-        on update cascade
-        on delete restrict,
-    constraint fk_orders_type foreign key (typeID)
-        references CommissionTypes(typeID)
+    CONSTRAINT fk_orders_client FOREIGN KEY (clientID)
+        REFERENCES Clients(clientID)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT,
+    CONSTRAINT fk_orders_type FOREIGN KEY (typeID)
+        REFERENCES CommissionTypes(typeID)
 
 );
 
-create table if not exists DigitalImages (
-    imageID INT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS DigitalImages (
+    imageID     INT PRIMARY KEY,
     description TEXT,
-    isExplicit BOOLEAN NOT NULL,
-    typeID INT NOT NULL,
-    constraint fk_image_comm foreign key (typeID)
-        references CommissionTypes(typeID)
-        on update cascade
-        on delete restrict
+    isExplicit  BOOLEAN NOT NULL,
+    typeID      INT NOT NULL,
+    CONSTRAINT fk_image_comm FOREIGN KEY (typeID)
+        REFERENCES CommissionTypes(typeID)
+        ON UPDATE CASCADE
+        ON DELETE RESTRICT
 );
 
-create table if not exists OrderDetails (
-    streetAddr VARCHAR(50) NOT NULL,
-    city VARCHAR(50) NOT NULL,
-    state VARCHAR(20) NOT NULL,
-    country VARCHAR(20) NOT NULL,
-    zipCode VARCHAR(10) NOT NULL,
-    orderID INT NOT NULL,
-    primary key (streetAddr, city, state, country, zipCode),
-    constraint fk_orderID_details foreign key (orderID)
-        references Orders(orderID)
+CREATE TABLE IF NOT EXISTS OrderDetails (
+    streetAddr  VARCHAR(50) NOT NULL,
+    city        VARCHAR(50) NOT NULL,
+    state       VARCHAR(20) NOT NULL,
+    country     VARCHAR(20) NOT NULL,
+    zipCode     VARCHAR(10) NOT NULL,
+    orderID     INT NOT NULL,
+    PRIMARY KEY (streetAddr, city, state, country, zipCode),
+    CONSTRAINT fk_orderID_details FOREIGN KEY (orderID)
+        REFERENCES Orders(orderID)
 );
 
-create table if not exists Comm_Tag (
-    typeID INT NOT NULL,
-    tagID INT NOT NULL,
-    primary key (typeID, tagID),
-    constraint fk_ctag_tag foreign key (tagID)
-        references Tags(tagID)
-        on update cascade
-        on delete cascade,
-    constraint fk_ctag_comm foreign key (typeID)
-        references CommissionTypes(typeID)
-        on update cascade
-        on delete cascade
+CREATE TABLE IF NOT EXISTS Comm_Tag (
+    typeID  INT NOT NULL,
+    tagID   INT NOT NULL,
+    PRIMARY KEY (typeID, tagID),
+    CONSTRAINT fk_ctag_tag FOREIGN KEY (tagID)
+        REFERENCES Tags(tagID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_ctag_comm FOREIGN KEY (typeID)
+        REFERENCES CommissionTypes(typeID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
-create table if not exists Deny_List (
-    artistID INT NOT NULL,
-    tagID INT NOT NULL,
-    primary key (artistID, tagID),
-    constraint fk_deny_tag foreign key (tagID)
-        references Tags(tagID)
-        on update cascade
-        on delete cascade,
-    constraint fk_deny_artist foreign key (artistID)
-        references Artists(artistID)
-        on update cascade
-        on delete cascade
+CREATE TABLE IF NOT EXISTS Deny_List (
+    artistID    INT NOT NULL,
+    tagID       INT NOT NULL,
+    PRIMARY KEY (artistID, tagID),
+    CONSTRAINT fk_deny_tag FOREIGN KEY (tagID)
+        REFERENCES Tags(tagID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT fk_deny_artist FOREIGN KEY (artistID)
+        REFERENCES Artists(artistID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
