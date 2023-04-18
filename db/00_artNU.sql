@@ -85,6 +85,17 @@ CREATE TABLE IF NOT EXISTS DigitalImages (
         ON DELETE RESTRICT
 );
 
+CREATE TABLE IF NOT EXISTS ImageFile (
+    imageID     INT NOT NULL,
+    location VARCHAR(50) NOT NULL,
+    title  TEXT,
+    PRIMARY KEY (imageID, location),
+    CONSTRAINT fk_image_file FOREIGN KEY (imageID)
+        REFERENCES DigitalImages(imageID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS OrderDetails (
     streetAddr  VARCHAR(50) NOT NULL,
     city        VARCHAR(50) NOT NULL,
