@@ -86,9 +86,9 @@ CREATE TABLE IF NOT EXISTS DigitalImages (
 );
 
 CREATE TABLE IF NOT EXISTS ImageFile (
-    imageID     INT NOT NULL,
-    location VARCHAR(50) NOT NULL,
-    title  TEXT,
+    imageID                 INT NOT NULL,
+    location VARCHAR(50)    NOT NULL,
+    title                   TEXT,
     PRIMARY KEY (imageID, location),
     CONSTRAINT fk_image_file FOREIGN KEY (imageID)
         REFERENCES DigitalImages(imageID)
