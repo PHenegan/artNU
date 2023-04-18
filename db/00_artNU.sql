@@ -1,3 +1,7 @@
+-- Restart the database from scratch
+drop database if exists ArtNU;
+
+-- Make the new ArtNU database
 create database if not exists ArtNU;
 use ArtNU;
 create table if not exists Clients (
@@ -5,27 +9,6 @@ create table if not exists Clients (
     firstName   TEXT,
     lastName    TEXT,
     email       VARCHAR(50) NOT NULL UNIQUE
-);
-
-create table if not exists Orders (
-    orderID             INT PRIMARY KEY,
-    workStatus          VARCHAR(15),
-    startDate           DATE,
-    finishDate          DATE,
-    description         TEXT,
-    quote               DOUBLE,
-    paymentStatus       VARCHAR(15),
-    orderFileLocation   TEXT,
-    typeID              INT NOT NULL,
-    clientID            INT NOT NULL,
-
-    constraint fk_orders_client foreign key (clientID)
-        references Clients(clientID)
-        on update cascade
-        on delete restrict,
-    constraint fk_orders_type foreign key (typeID)
-        references CommissionTypes(typeID)
-
 );
 
 create table if not exists Artists (
@@ -39,6 +22,16 @@ create table if not exists Artists (
   link3 TEXT,
   link4 TEXT,
   termsOfService TEXT NOT NULL
+);
+
+create table if not exists Tags (
+    tagID INT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL UNIQUE
+);
+
+create table if not exists Licenses (
+    licenseID INT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL UNIQUE
 );
 
 create table if not exists CommissionTypes (
@@ -60,14 +53,25 @@ create table if not exists CommissionTypes (
         on delete restrict
 );
 
-create table if not exists Tags (
-    tagID INT PRIMARY KEY,
-    name VARCHAR(20) NOT NULL UNIQUE
-);
+create table if not exists Orders (
+    orderID             INT PRIMARY KEY,
+    workStatus          VARCHAR(15),
+    startDate           DATE,
+    finishDate          DATE,
+    description         TEXT,
+    quote               DOUBLE,
+    paymentStatus       VARCHAR(15),
+    orderFileLocation   TEXT,
+    typeID              INT NOT NULL,
+    clientID            INT NOT NULL,
 
-create table if not exists Licenses (
-    licenseID INT PRIMARY KEY,
-    name VARCHAR(20) NOT NULL UNIQUE
+    constraint fk_orders_client foreign key (clientID)
+        references Clients(clientID)
+        on update cascade
+        on delete restrict,
+    constraint fk_orders_type foreign key (typeID)
+        references CommissionTypes(typeID)
+
 );
 
 create table if not exists DigitalImages (
