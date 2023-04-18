@@ -35,13 +35,12 @@ CREATE TABLE IF NOT EXISTS Licenses (
 );
 
 CREATE TABLE if NOT EXISTS CommissionTypes (
-    typeID INT PRIMARY KEY,
+    typeID      INT PRIMARY KEY,
     name        TEXT,
     description TEXT,
     minPrice    DOUBLE,
     maxPrice    DOUBLE,
     licenseID   INT NOT NULL,
-    imageID     INT NOT NULL,
     artistID    INT NOT NULL,
     CONSTRAINT fk_comm_license FOREIGN KEY (licenseID)
         REFERENCES Licenses(licenseID)
@@ -85,7 +84,7 @@ CREATE TABLE IF NOT EXISTS DigitalImages (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE IF NOT EXISTS ImageFile (
+CREATE TABLE IF NOT EXISTS ImageFiles (
     imageID                 INT NOT NULL,
     location VARCHAR(50)    NOT NULL,
     title                   TEXT,
