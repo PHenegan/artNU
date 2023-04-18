@@ -40,5 +40,61 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "ed5cf61c-9aa7-48c4-82c4-001a90acf499",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
+    "containerId": "",
+    "name": "GET Artists",
+    "url": "localhost:8001/artists/GetArtists",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2023-04-18T19:17:16.762Z",
+    "modified": "2023-04-18T19:17:42.457Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "f0fc17ff-ca06-4874-a74c-8cfa90077d7b",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
+    "containerId": "",
+    "name": "Get Artists Using ID",
+    "url": "localhost:8001/artists/artists/<artistID>",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2023-04-18T19:18:12.236Z",
+    "modified": "2023-04-18T19:18:26.009Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "d22b3c42-ddc1-48da-bb25-5ae321254156",
+    "colId": "4092fa59-2d83-451b-827f-ae8d2b15273f",
+    "containerId": "",
+    "name": "GET Customers",
+    "url": "localhost:8001/customers/customers",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2023-04-18T19:19:24.048Z",
+    "modified": "2023-04-18T19:19:51.250Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "915c3934-102a-4f68-b580-1267555f2c0f",
+    "colId": "4092fa59-2d83-451b-827f-ae8d2b15273f",
+    "containerId": "",
+    "name": "GET Customers Using ID",
+    "url": "localhost:8001/customers/customers/<userID>",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2023-04-18T19:20:31.633Z",
+    "modified": "2023-04-18T19:20:50.728Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

@@ -44,5 +44,7 @@ def create_app():
     # ===================================================== #
 
     app.register_blueprint(artists, url_prefix='/artists')
+    app.register_blueprint(customers, url_prefix='/customers')
+
 
     return app
