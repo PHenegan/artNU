@@ -50,3 +50,34 @@ def get_images_tag(tagID):
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+# Add a new example commission image
+@images.route('/artists/<artistID>', methods=['POST'])
+def add_image(artistID):
+    req_data = request.get_json
+
+    image_ID = req_data['imageID']
+    image_desc = req_data['description']
+    image_isExplicit = req_data['isExplicit']
+    image_type = req_data['typeID']
+
+    # insert statement
+    insert = 'INSERT INTO DigitalImages ("'
+    insert += str(image_ID) + ', '
+    insert += image_desc + ', '
+    insert += image_isExplicit + ', '
+    insert += image_type + ')'
+
+    # execute query
+    cursor = db.get_db().cursor()
+    cursor.execute(insert)
+    db.get_db().commit()
+    return "Success"
+
+# Remove a commission image from the database
+@images.route('/artists/<imageID>', methods=['DELETE'])
+def delete_image(imageID):
+    cursor = db.get_db().cursor()
+    cursor.execute('DELETE FROM DigitalImages WHERE artistID=' + str(imageID))
+    db.get_db().commit()
+    return "Success"

@@ -7,7 +7,7 @@ artists = Blueprint('artists', __name__)
 
 
 # Get all artists from the db
-@artists.route('/', methods=['GET'])
+@artists.route('/artists', methods=['GET'])
 def get_artists():
     cursor = db.get_db().cursor()
     cursor.execute('select firstName, lastName, email from Artists')
