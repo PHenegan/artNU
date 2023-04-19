@@ -35,3 +35,50 @@ def get_artist_commission_images(artistID):
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+# Get all commission types of a specified commission tag
+@commission_types.route('/tags/<tagID>', methods=['GET'])
+def get_commission_tags(tagID):
+    cursor = db.get_db().cursor
+    cursor.execute('Select T.name as tag_name, A.firstName as artist_first_name, A.lastName as artist_last_name, C.name as commission_type, minPrice' 
+                   + ' From CommissionTypes C join Comm_Tag CT on C.typeID = CT.typeID join Tags T on CT.tagID = T.tagID join Artists A on C.artistID = A.artistID'
+                   + ' where T.tagID = {0}'.format(tagID))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+# Add a new example commission image
+@commission_types.route('/tag/<tagID>', methods=['POST'])
+def add_image(tagID):
+    req_data = request.get_json
+
+    #commission type ID
+    typeID = req_data['typeID']
+
+    # insert statement
+    insert = 'INSERT INTO Comm_Tag ({0}, {1})'.format(typeID, tagID) 
+
+    # execute query
+    cursor = db.get_db().cursor()
+    cursor.execute(insert)
+    db.get_db().commit()
+    return "Success"
+
+# Remove a tag from a commission type
+@commission_types.route('/tag/<tagID>', methods=['DELETE'])
+def delete_image(tagID):
+    req_data = request.get_json
+
+    #commission type ID
+    typeID = req_data['typeID']
+
+    cursor = db.get_db().cursor()
+    cursor.execute('DELETE from Comm_Tag where typeID={0} and tagID={1}'.format(typeID, tagID))
+    db.get_db().commit()
+    return "Success"
