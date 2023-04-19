@@ -3,6 +3,10 @@ DROP DATABASE IF EXISTS ArtNU;
 
 -- Make the new ArtNU database
 CREATE DATABASE IF NOT EXISTS ArtNU;
+
+grant all privileges on ArtNU.* to 'webapp'@'%';
+flush privileges;
+
 USE ArtNU;
 CREATE TABLE IF NOT EXISTS Clients (
     clientID    INT PRIMARY KEY,

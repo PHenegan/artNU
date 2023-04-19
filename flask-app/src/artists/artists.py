@@ -7,7 +7,7 @@ artists = Blueprint('artists', __name__)
 
 
 # Get all artists from the db
-@artists.route('/artists', methods=['GET'])
+@artists.route('/', methods=['GET'])
 def get_artists():
     cursor = db.get_db().cursor()
     cursor.execute('select firstName, lastName, email from Artists')
@@ -22,7 +22,7 @@ def get_artists():
     return the_response
 
 # Add a new artist to the database
-@artists.route('/artists', methods=['POST'])
+@artists.route('/', methods=['POST'])
 def add_artist():
     # access json data from request object
     current_app.logger.info('Processing form data')
@@ -59,7 +59,7 @@ def add_artist():
 
 
 # Get artist detail for artist with particular artistID
-@artists.route('/artists/<artistID>', methods=['GET'])
+@artists.route('/<artistID>', methods=['GET'])
 def get_specific_artist(artistID):
     cursor = db.get_db().cursor()
     cursor.execute('select * from Artists join CommissionTypes using (artistID) where id = {0}'.format(artistID))
@@ -74,7 +74,7 @@ def get_specific_artist(artistID):
     return the_response
 
 # Get all the tags an artist refuses to do
-@artists.route('/artists/<artistID>/denylist', methods=['GET'])
+@artists.route('/<artistID>/denylist', methods=['GET'])
 def get_artistDeny(artistID):
     cursor = db.get_db().cursor()
     cursor.execute('select name from Deny_List join Tags using (tagID) where id = {0}'.format(artistID))
@@ -89,7 +89,7 @@ def get_artistDeny(artistID):
     return the_response
 
 # Get all the commission types offered by a specific artist
-@artists.route('/artists/<artistID>/commission_types', methods=['GET'])
+@artists.route('/<artistID>/commission_types', methods=['GET'])
 def get_artistCommissions(artistID):
     cursor = db.get_db().cursor()
     cursor.execute('select name, description from Artists join CommissionTypes using (tagID) where id = {0}'.format(artistID))
@@ -104,7 +104,7 @@ def get_artistCommissions(artistID):
     return the_response
 
 # Get all the specified artist's ongoing orders
-@artists.route('/artists/<artistID>/orders', methods=['GET'])
+@artists.route('/<artistID>/orders', methods=['GET'])
 def get_artistOrders(artistID):
     cursor = db.get_db().cursor()
     cursor.execute('select name, description from Artists join CommissionTypes using (tagID) where id = {0}'.format(artistID))
