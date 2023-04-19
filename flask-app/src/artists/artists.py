@@ -76,7 +76,21 @@ def get_specific_artist(artistID):
     return the_response
 
 def update_specific_artist(artistID):
-    json_data = []
+    first = req_data['firstName']
+    last = req_data['lastName']
+    email = req_data['email']
+    bio = req_data['bio']
+    link1 = req_data['link1']
+    link2 = req_data['link2']
+    link3 = req_data['link3']
+    link4 = req_data['link4']
+    terms = req_data['termsofService']
+
+    query = 'update Artists '
+    query += 'set firstName = \'{0}\', lastName = \'{1}\', email = \'{2}\', '.format(first, last, email)
+    query += 'bio = \'{0}\', link1 = \'{1}\', link2 = \'{2}\', link3 = \'{3}\', link4 = \'{4}\''.format(bio, link1, link2, link3, link4)
+    query += 'termsOfService = \'{0}\', '.format(terms)
+    query += 'where artistID = {0}'.format(artistID)
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
