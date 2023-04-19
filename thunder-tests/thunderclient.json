@@ -45,33 +45,26 @@
     "_id": "ed5cf61c-9aa7-48c4-82c4-001a90acf499",
     "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
     "containerId": "",
-    "name": "GET Artists",
-    "url": "localhost:8001/artists/",
+    "name": "Get Artists",
+    "url": "localhost:8001/artists/artists",
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-04-18T19:17:16.762Z",
-    "modified": "2023-04-19T15:00:19.974Z",
+    "modified": "2023-04-19T17:10:40.335Z",
     "headers": [],
     "params": [],
-    "tests": [
-      {
-        "type": "res-code",
-        "custom": "",
-        "action": "equal",
-        "value": "200"
-      }
-    ]
+    "tests": []
   },
   {
     "_id": "f0fc17ff-ca06-4874-a74c-8cfa90077d7b",
     "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
     "containerId": "",
     "name": "Get Artists Using ID",
-    "url": "localhost:8001/artists/1",
+    "url": "localhost:8001/artists/<artistID>",
     "method": "GET",
     "sortNum": 20000,
     "created": "2023-04-18T19:18:12.236Z",
-    "modified": "2023-04-19T15:00:22.075Z",
+    "modified": "2023-04-19T16:12:04.950Z",
     "headers": [],
     "params": [],
     "tests": [
@@ -84,31 +77,64 @@
     ]
   },
   {
-    "_id": "d22b3c42-ddc1-48da-bb25-5ae321254156",
-    "colId": "4092fa59-2d83-451b-827f-ae8d2b15273f",
+    "_id": "07d55cdf-b00a-4921-be50-33a996282290",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
     "containerId": "",
-    "name": "GET Customers",
-    "url": "localhost:8001/customers/customers",
+    "name": "Get All Denied Tags",
+    "url": "localhost:8001/artists/<artistID>/denylist",
     "method": "GET",
-    "sortNum": 10000,
-    "created": "2023-04-18T19:19:24.048Z",
-    "modified": "2023-04-18T19:19:51.250Z",
+    "sortNum": 40000,
+    "created": "2023-04-19T16:13:34.340Z",
+    "modified": "2023-04-19T17:10:09.887Z",
     "headers": [],
     "params": [],
     "tests": []
   },
   {
-    "_id": "915c3934-102a-4f68-b580-1267555f2c0f",
-    "colId": "4092fa59-2d83-451b-827f-ae8d2b15273f",
+    "_id": "3a536117-6a7f-4e27-8656-3a632c34bffe",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
     "containerId": "",
-    "name": "GET Customers Using ID",
-    "url": "localhost:8001/customers/customers/<userID>",
+    "name": "Get All Comission Types",
+    "url": "localhost:8001/artists/<artistID>/commission_types",
     "method": "GET",
-    "sortNum": 20000,
-    "created": "2023-04-18T19:20:31.633Z",
-    "modified": "2023-04-18T19:20:50.728Z",
+    "sortNum": 50000,
+    "created": "2023-04-19T16:14:42.830Z",
+    "modified": "2023-04-19T16:15:06.835Z",
     "headers": [],
     "params": [],
+    "tests": []
+  },
+  {
+    "_id": "754793fb-12ff-4fc0-8e12-3dbe22b30e09",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
+    "containerId": "",
+    "name": "Get All Orders",
+    "url": "localhost:8001/artists/<artistID>/orders",
+    "method": "GET",
+    "sortNum": 70000,
+    "created": "2023-04-19T16:15:36.937Z",
+    "modified": "2023-04-19T16:16:22.720Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "919865fe-2c3c-48df-91e8-5bf9eda995e8",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
+    "containerId": "",
+    "name": "Add New Artist",
+    "url": "localhost:8001/artists/",
+    "method": "POST",
+    "sortNum": 80000,
+    "created": "2023-04-19T16:39:49.746Z",
+    "modified": "2023-04-19T17:09:20.056Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"artistID\": 30976,\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Lynn\",\n  \"email\": \"sarahlynn@gmail.com\",\n  \"bio\": \"Hi y'all! I'm Sarah!\",\n  \"link1\": \"\",\n  \"link2\": \"\",\n  \"link3\": \"\",\n  \"link4\": \"\",\n  \"termsofService\": \"All pieces take at least 3 months!\"\n}",
+      "form": []
+    },
     "tests": []
   }
 ]
