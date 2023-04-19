@@ -139,7 +139,7 @@ def get_artistCommissions(artistID):
 @artists.route('/<artistID>/orders', methods=['GET'])
 def get_artistOrders(artistID):
     cursor = db.get_db().cursor()
-    cursor.execute('select name, description from Artists join CommissionTypes using (tagID) where id = {0}'.format(artistID))
+    cursor.execute('select name, CT.description, workStatus from Artists A join CommissionTypes CT on A.artistID = CT.artistID join Orders O on CT.typeID = O.typeID where A.artistID = {0} AND workStatus = \'in-progress\''.format(artistID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -149,3 +149,36 @@ def get_artistOrders(artistID):
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+# Get all the specified artist's tags they will work with and the associated commission
+@artists.route('/<artistID>/comm_tag', methods=['GET'])
+def get_artistTags(artistID):
+    cursor = db.get_db().cursor()
+    cursor.execute('select T.name tag_name, C.name comm_name, C.description from Artists join CommissionTypes C using (artistID) join Comm_Tag CT on C.typeID = CT.typeID join Tags T on CT.tagID = T.tagID where artistID = {0}'.format(artistID))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+# Add a new commission type to a tag
+@artists.route('/<artistID>/comm_tag', methods=['POST'])
+def add_comm_tag(tagID):
+    req_data = request.get_json
+
+    #commission type ID
+    typeID = req_data['typeID']
+    tagID = req_data['tagID']
+
+    # insert statement
+    insert = 'INSERT INTO Comm_Tag ({0}, {1})'.format(typeID, tagID) 
+
+    # execute query
+    cursor = db.get_db().cursor()
+    cursor.execute(insert)
+    db.get_db().commit()
+    return "Success"
