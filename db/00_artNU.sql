@@ -9,14 +9,14 @@ flush privileges;
 
 USE ArtNU;
 CREATE TABLE IF NOT EXISTS Clients (
-    clientID    INT PRIMARY KEY,
+    clientID    INT PRIMARY KEY auto_increment,
     firstName   TEXT,
     lastName    TEXT,
     email       VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS Artists (
-  artistID          INT PRIMARY KEY,
+  artistID          INT PRIMARY KEY auto_increment,
   email             TEXT NOT NULL,
   firstName         TEXT NOT NULL,
   lastName          TEXT NOT NULL,
@@ -29,17 +29,17 @@ CREATE TABLE IF NOT EXISTS Artists (
 );
 
 CREATE TABLE IF NOT EXISTS Tags (
-    tagID   INT PRIMARY KEY,
+    tagID   INT PRIMARY KEY auto_increment,
     name    VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS Licenses (
-    licenseID   INT PRIMARY KEY,
+    licenseID   INT PRIMARY KEY auto_increment,
     name        VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE if NOT EXISTS CommissionTypes (
-    typeID      INT PRIMARY KEY,
+    typeID      INT PRIMARY KEY auto_increment,
     name        TEXT,
     description TEXT,
     minPrice    DOUBLE,
@@ -57,7 +57,7 @@ CREATE TABLE if NOT EXISTS CommissionTypes (
 );
 
 CREATE TABLE IF NOT EXISTS Orders (
-    orderID             INT PRIMARY KEY,
+    orderID             INT PRIMARY KEY auto_increment,
     workStatus          VARCHAR(15),
     startDate           DATE,
     finishDate          DATE,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS Orders (
 );
 
 CREATE TABLE IF NOT EXISTS DigitalImages (
-    imageID     INT PRIMARY KEY,
+    imageID     INT PRIMARY KEY auto_increment,
     description TEXT,
     isExplicit  BOOLEAN NOT NULL,
     typeID      INT NOT NULL,
@@ -106,9 +106,11 @@ CREATE TABLE IF NOT EXISTS OrderDetails (
     country     VARCHAR(20) NOT NULL,
     zipCode     VARCHAR(10) NOT NULL,
     orderID     INT NOT NULL,
-    PRIMARY KEY (streetAddr, city, state, country, zipCode),
+    PRIMARY KEY (streetAddr, city, state, country, zipCode, orderID),
     CONSTRAINT fk_orderID_details FOREIGN KEY (orderID)
         REFERENCES Orders(orderID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Comm_Tag (
@@ -138,3 +140,12 @@ CREATE TABLE IF NOT EXISTS Deny_List (
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
+
+# Starting at 101 to not conflict with mock data
+ALTER TABLE Clients AUTO_INCREMENT=101;
+ALTER TABLE Artists AUTO_INCREMENT=101;
+ALTER TABLE Tags AUTO_INCREMENT = 101;
+ALTER TABLE Licenses AUTO_INCREMENT = 101;
+ALTER TABLE CommissionTypes AUTO_INCREMENT = 101;
+ALTER TABLE Orders AUTO_INCREMENT = 101;
+ALTER TABLE DigitalImages AUTO_INCREMENT = 101;
