@@ -6,7 +6,7 @@ from src import db
 images = Blueprint('images', __name__)
 
 # Get all the images in the database
-@images.route('/images', methods=['GET'])
+@images.route('/', methods=['GET'])
 def get_images():
     cursor = db.get_db().cursor()
     cursor.execute('SELECT imageID, description, typeID, isExplicit FROM DigitalImages')
@@ -19,7 +19,7 @@ def get_images():
     return jsonify(json_data)
 
 # Get a portfolio of the specified artist's uploaded images
-@images.route('/images/artist/<artistID>', methods=['GET'])
+@images.route('/artist/<artistID>', methods=['GET'])
 def get_images_artist(artistID):
     cursor = db.get_db().cursor()
     # this line needs to be changed, not sure what exactly we want from the database based on the rest api matrix description
@@ -35,7 +35,7 @@ def get_images_artist(artistID):
     return the_response
 
 # Get all examples of a specified commission tag
-@images.route('/images/tags/<tagID>', methods=['GET'])
+@images.route('/tags/<tagID>', methods=['GET'])
 def get_images_tag(tagID):
     cursor = db.get_db().cursor()
     # this line needs to be changed, not sure what exactly we want from the database based on the rest api matrix description

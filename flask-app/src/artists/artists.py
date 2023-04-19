@@ -54,9 +54,6 @@ def add_artist():
     db.get_db().commit()
     return "Success"
 
-    
-
-
 
 # Get artist detail for artist with particular artistID
 @artists.route('/<artistID>', methods=['GET'])
@@ -77,6 +74,22 @@ def get_specific_artist(artistID):
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+def update_specific_artist(artistID):
+    json_data = []
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+
+    response = make_response(jsonify(json_data))
+    response.status_code = 200
+    return response
 
 # Get all the tags an artist refuses to do
 @artists.route('/<artistID>/denylist', methods=['GET'])

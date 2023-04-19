@@ -46,28 +46,42 @@
     "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
     "containerId": "",
     "name": "GET Artists",
-    "url": "localhost:8001/artists/GetArtists",
+    "url": "localhost:8001/artists/",
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-04-18T19:17:16.762Z",
-    "modified": "2023-04-18T19:17:42.457Z",
+    "modified": "2023-04-19T15:00:19.974Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      }
+    ]
   },
   {
     "_id": "f0fc17ff-ca06-4874-a74c-8cfa90077d7b",
     "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
     "containerId": "",
     "name": "Get Artists Using ID",
-    "url": "localhost:8001/artists/artists/<artistID>",
+    "url": "localhost:8001/artists/1",
     "method": "GET",
     "sortNum": 20000,
     "created": "2023-04-18T19:18:12.236Z",
-    "modified": "2023-04-18T19:18:26.009Z",
+    "modified": "2023-04-19T15:00:22.075Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      }
+    ]
   },
   {
     "_id": "d22b3c42-ddc1-48da-bb25-5ae321254156",
