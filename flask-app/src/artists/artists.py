@@ -61,8 +61,13 @@ def add_artist():
 # Get artist detail for artist with particular artistID
 @artists.route('/<artistID>', methods=['GET'])
 def get_specific_artist(artistID):
+    query = 'select firstName, lastName, email, link1, link2, link3, link4, bio, CommissionTypes.name as commissionType, artistID '
+    query += 'from Artists join CommissionTypes using (artistID) '
+    query += 'where artistID = {0}'.format(artistID)
+
     cursor = db.get_db().cursor()
-    cursor.execute('select * from Artists join CommissionTypes using (artistID) where id = {0}'.format(artistID))
+    cursor.execute(query)
+    
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
