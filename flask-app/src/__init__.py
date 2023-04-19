@@ -34,6 +34,7 @@ def create_app():
     from src.customers.customers import customers
     from src.products.products  import products
     from src.artists.artists import artists
+    from src.images.images import images
 
     # Register the routes that we just imported so they can be properly handled
 
