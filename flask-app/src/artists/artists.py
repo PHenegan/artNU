@@ -157,6 +157,31 @@ def add_commission_type(artistID):
     db.get_db().commit()
     return "Success"
 
+# Add an order to an artist commission list
+@artists.route('/<artistID>/orders', methods=['POST'])
+def add_orders(artistID):
+    # access json data from request object
+    current_app.logger.info('Processing form data')
+    req_data = request.get_json()
+    current_app.logger.info(req_data)
+
+    description = req_data['description']
+    quote = req_data['quote']
+    paymentStatus = req_data['paymentStatus']
+    typeID = req_data['typeID']
+    clientID = req_data['clientID']
+
+    # insert statement
+    insert = 'INSERT INTO Orders(workStatus, description, quote, paymentStatus, typeID, clientID) Values(\'pending\', {0}, {1}, \'not received\', {2}, {3});'.format(description, quote, paymentStatus, typeID, clientID)
+
+    current_app.logger.info(insert) 
+
+    # execute query
+    cursor = db.get_db().cursor()
+    cursor.execute(insert)
+    db.get_db().commit()
+    return "Success"
+
 # Add a tag to a commission type
 @artists.route('/<artistID>/comm_tag', methods=['POST'])
 def add_comm_tag(artistID):
@@ -240,10 +265,39 @@ def update_specific_artist(artistID):
     response.status_code = 200
     return response
 
+# Update an order in an artist commission list
+@artists.route('/<artistID>/orders', methods=['PUT'])
+def update_orders(artistID):
+    # access json data from request object
+    current_app.logger.info('Processing form data')
+    req_data = request.get_json()
+    current_app.logger.info(req_data)
+
+    workStatus = req_data['workStatus']
+    startDate = req_data['startDate']
+    finishDate = req_data['finishDate']
+    quote = req_data['quote']
+    paymentStatus = req_data['paymentStatus']
+    orderFileLocation = req_data['orderFileLocation']
+    orderID = req_data['orderID']
+
+    # query statement
+    query = 'UPDATE Orders SET workStatus = \'{0}\', startDate = Date(\'{1}\'), finishDate = Date(\'{2}\'), '.format(workStatus, startDate, finishDate)
+    query += 'quote = {0}, paymentStatus = \'{1}\', orderFileLocation = \'{2}\' where orderID = {3};'.format(quote, paymentStatus, orderFileLocation, orderID)
+
+    current_app.logger.info(query) 
+
+    # execute query
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    return "Success"
+
 # Delete this artist profile
 @artists.route('/<artistID>', methods=['DELETE'])
 def delete_artist(artistID):
-    # insert statement
+
+    # query statement
     query = 'DELETE from Artists where artistID = {}'.format(artistID)
 
     current_app.logger.info(query) 
@@ -263,7 +317,8 @@ def delete_commission_type(artistID):
     current_app.logger.info(req_data)
 
     typeID = req_data['typeID']
-    # insert statement
+
+    # query statement
     query = 'DELETE from CommissionType where typeID = {}'.format(typeID)
 
     current_app.logger.info(query) 
@@ -284,7 +339,7 @@ def delete_comm_tag(artistID):
 
     typeID = req_data['typeID']
     tagName = req_data['tagName']
-    # insert statement
+    # query statement
     query = 'DELETE from Comm_Tag where typeID = {} and tagName = {}'.format(typeID, tagName)
 
     current_app.logger.info(query) 
@@ -304,7 +359,7 @@ def delete_denylist_tag(artistID):
     current_app.logger.info(req_data)
 
     typeID = req_data['typeID']
-    # insert statement
+    # query statement
     query = 'DELETE from Deny_List where typeID = {} and artistID = {}'.format(typeID, artistID)
 
     current_app.logger.info(query) 
@@ -315,3 +370,23 @@ def delete_denylist_tag(artistID):
     db.get_db().commit()
     return "Success"
 
+# Delete an order
+@artists.route('/<artistID>/orders', methods=['DELETE'])
+def delete_orders(artistID):
+    # access json data from request object
+    current_app.logger.info('Processing form data')
+    req_data = request.get_json()
+    current_app.logger.info(req_data)
+
+    orderID = req_data['orderID']
+
+    # query statement
+    query = 'DELETE from Orders where orderID = {} and artistID = {}'.format(orderID, artistID)
+
+    current_app.logger.info(query) 
+
+    # execute query
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    db.get_db().commit()
+    return "Success"
