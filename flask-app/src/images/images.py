@@ -35,12 +35,12 @@ def get_images_artist(artistID):
     return the_response
 
 # Get all examples of a specified commission tag
-@images.route('/tags/<tagID>', methods=['GET'])
-def get_images_tag(tagID):
+@images.route('/tags/<tagName>', methods=['GET'])
+def get_images_tag(tagName):
     cursor = db.get_db().cursor()
     # this line needs to be changed, not sure what exactly we want from the database based on the rest api matrix description
     cursor.execute('select imageID, description from DigitalImages join CommissionTypes using (typeID) join Comm_Tag using (typeID)' 
-                   + ' join Tags using (tagID) where id = {0}'.format(tagID))
+                   + ' join Tags using (tagName) where id = {0}'.format(tagName))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()

@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
 
@@ -37,12 +37,12 @@ def get_artist_commission_images(artistID):
     return the_response
 
 # Get all commission types of a specified commission tag
-@commission_types.route('/tags/<tagID>', methods=['GET'])
-def get_commission_tags(tagID):
+@commission_types.route('/tags/<tagName>', methods=['GET'])
+def get_commission_tags(tagName):
     cursor = db.get_db().cursor
     cursor.execute('Select T.name as tag_name, A.firstName as artist_first_name, A.lastName as artist_last_name, C.name as commission_type, minPrice' 
-                   + ' From CommissionTypes C join Comm_Tag CT on C.typeID = CT.typeID join Tags T on CT.tagID = T.tagID join Artists A on C.artistID = A.artistID'
-                   + ' where T.tagID = {0}'.format(tagID))
+                   + ' From CommissionTypes C join Comm_Tag CT on C.typeID = CT.typeID join Tags T on CT.tagName = T.tagName join Artists A on C.artistID = A.artistID'
+                   + ' where T.tagName = {0}'.format(tagName))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -53,16 +53,16 @@ def get_commission_tags(tagID):
     the_response.mimetype = 'application/json'
     return the_response
 
-# Add a new example commission image
-@commission_types.route('/tag/<tagID>', methods=['POST'])
-def add_image(tagID):
+# Add a new commission type to a tag
+@commission_types.route('/tag/<tagName>', methods=['POST'])
+def add_image(tagName):
     req_data = request.get_json
 
     #commission type ID
     typeID = req_data['typeID']
 
     # insert statement
-    insert = 'INSERT INTO Comm_Tag ({0}, {1})'.format(typeID, tagID) 
+    insert = 'INSERT INTO Comm_Tag ({0}, {1})'.format(typeID, tagName) 
 
     # execute query
     cursor = db.get_db().cursor()
@@ -71,14 +71,14 @@ def add_image(tagID):
     return "Success"
 
 # Remove a tag from a commission type
-@commission_types.route('/tag/<tagID>', methods=['DELETE'])
-def delete_image(tagID):
+@commission_types.route('/tag/<tagName>', methods=['DELETE'])
+def delete_image(tagName):
     req_data = request.get_json
 
     #commission type ID
     typeID = req_data['typeID']
 
     cursor = db.get_db().cursor()
-    cursor.execute('DELETE from Comm_Tag where typeID={0} and tagID={1}'.format(typeID, tagID))
+    cursor.execute('DELETE from Comm_Tag where typeID={0} and tagName={1}'.format(typeID, tagName))
     db.get_db().commit()
     return "Success"

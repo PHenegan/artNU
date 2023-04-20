@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response, current_app
 import json
 from src import db
 
@@ -10,7 +10,24 @@ artists = Blueprint('artists', __name__)
 @artists.route('/', methods=['GET'])
 def get_artists():
     cursor = db.get_db().cursor()
-    cursor.execute('select firstName, lastName, email from Artists')
+    cursor.execute('select firstName, lastName, email, bio from Artists')
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+# Get a portfolio of the specified artist's commission types
+@artists.route('/<artistID>/commission_types', methods=['GET'])
+def get_artist_commission_types(artistID):
+    cursor = db.get_db().cursor()
+    cursor.execute('Select a.firstName as artist_first_name, a.lastName as artist_last_name, c.name as comm_types, description, minPrice, maxPrice, l.name as license_name' +
+    ' from Artists as a join CommissionTypes as c using (artistID) join Licenses as l using (licenseID) '
+    '+ where a.artistID = {0};'.format(artistID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -109,7 +126,7 @@ def update_specific_artist(artistID):
 @artists.route('/<artistID>/denylist', methods=['GET'])
 def get_artistDeny(artistID):
     cursor = db.get_db().cursor()
-    cursor.execute('select name from Deny_List join Tags using (tagID) where id = {0}'.format(artistID))
+    cursor.execute('select name from Deny_List join Tags using (tagName) where artistID = {0}'.format(artistID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -124,7 +141,7 @@ def get_artistDeny(artistID):
 @artists.route('/<artistID>/commission_types', methods=['GET'])
 def get_artistCommissions(artistID):
     cursor = db.get_db().cursor()
-    cursor.execute('select name, description from Artists join CommissionTypes using (tagID) where id = {0}'.format(artistID))
+    cursor.execute('select name, description from Artists join CommissionTypes using (tagName) where artistID = {0}'.format(artistID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -154,7 +171,7 @@ def get_artistOrders(artistID):
 @artists.route('/<artistID>/comm_tag', methods=['GET'])
 def get_artistTags(artistID):
     cursor = db.get_db().cursor()
-    cursor.execute('select T.name tag_name, C.name comm_name, C.description from Artists join CommissionTypes C using (artistID) join Comm_Tag CT on C.typeID = CT.typeID join Tags T on CT.tagID = T.tagID where artistID = {0}'.format(artistID))
+    cursor.execute('select T.name tag_name, C.name comm_name, C.description from Artists join CommissionTypes C using (artistID) join Comm_Tag CT on C.typeID = CT.typeID join Tags T on CT.tagName = T.tagName where artistID = {0}'.format(artistID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -167,15 +184,15 @@ def get_artistTags(artistID):
 
 # Add a new commission type to a tag
 @artists.route('/<artistID>/comm_tag', methods=['POST'])
-def add_comm_tag(tagID):
+def add_comm_tag(tagName):
     req_data = request.get_json
 
     #commission type ID
     typeID = req_data['typeID']
-    tagID = req_data['tagID']
+    tagName = req_data['tagName']
 
     # insert statement
-    insert = 'INSERT INTO Comm_Tag ({0}, {1})'.format(typeID, tagID) 
+    insert = 'INSERT INTO Comm_Tag ({0}, {1})'.format(typeID, tagName) 
 
     # execute query
     cursor = db.get_db().cursor()

@@ -29,8 +29,8 @@ CREATE TABLE IF NOT EXISTS Artists (
 );
 
 CREATE TABLE IF NOT EXISTS Tags (
-    tagID   INT PRIMARY KEY auto_increment,
-    name    VARCHAR(50) NOT NULL UNIQUE
+    tagName   VARCHAR(50) PRIMARY KEY,
+    type      VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Licenses (
@@ -115,10 +115,10 @@ CREATE TABLE IF NOT EXISTS OrderDetails (
 
 CREATE TABLE IF NOT EXISTS Comm_Tag (
     typeID  INT NOT NULL,
-    tagID   INT NOT NULL,
-    PRIMARY KEY (typeID, tagID),
-    CONSTRAINT fk_ctag_tag FOREIGN KEY (tagID)
-        REFERENCES Tags(tagID)
+    tagName   VARCHAR(50) NOT NULL,
+    PRIMARY KEY (typeID, tagName),
+    CONSTRAINT fk_ctag_tag FOREIGN KEY (tagName)
+        REFERENCES Tags(tagName)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
     CONSTRAINT fk_ctag_comm FOREIGN KEY (typeID)
@@ -129,10 +129,10 @@ CREATE TABLE IF NOT EXISTS Comm_Tag (
 
 CREATE TABLE IF NOT EXISTS Deny_List (
     artistID    INT NOT NULL,
-    tagID       INT NOT NULL,
-    PRIMARY KEY (artistID, tagID),
-    CONSTRAINT fk_deny_tag FOREIGN KEY (tagID)
-        REFERENCES Tags(tagID)
+    tagName     VARCHAR(50) NOT NULL,
+    PRIMARY KEY (artistID, tagName),
+    CONSTRAINT fk_deny_tag FOREIGN KEY (tagName)
+        REFERENCES Tags(tagName)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
     CONSTRAINT fk_deny_artist FOREIGN KEY (artistID)
@@ -144,7 +144,6 @@ CREATE TABLE IF NOT EXISTS Deny_List (
 # Starting at 101 to not conflict with mock data
 ALTER TABLE Clients AUTO_INCREMENT=101;
 ALTER TABLE Artists AUTO_INCREMENT=101;
-ALTER TABLE Tags AUTO_INCREMENT = 101;
 ALTER TABLE Licenses AUTO_INCREMENT = 101;
 ALTER TABLE CommissionTypes AUTO_INCREMENT = 101;
 ALTER TABLE Orders AUTO_INCREMENT = 101;
