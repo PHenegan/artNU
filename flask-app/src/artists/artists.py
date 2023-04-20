@@ -171,7 +171,7 @@ def get_artistOrders(artistID):
 @artists.route('/<artistID>/comm_tag', methods=['GET'])
 def get_artistTags(artistID):
     cursor = db.get_db().cursor()
-    cursor.execute('select T.name tag_name, C.name comm_name, C.description from Artists join CommissionTypes C using (artistID) join Comm_Tag CT on C.typeID = CT.typeID join Tags T on CT.tagName = T.tagName where artistID = {0}'.format(artistID))
+    cursor.execute('select T.tagName, C.name comm_name, C.description from Artists join CommissionTypes C using (artistID) join Comm_Tag CT on C.typeID = CT.typeID join Tags T on CT.tagName = T.tagName where artistID = {0}'.format(artistID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
