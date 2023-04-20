@@ -59,7 +59,7 @@ CREATE TABLE if NOT EXISTS CommissionTypes (
 CREATE TABLE IF NOT EXISTS Orders (
     orderID             INT PRIMARY KEY auto_increment,
     workStatus          VARCHAR(15),
-    startDate           DATE,
+    startDate           DATE DEFAULT (CURRENT_DATE),
     finishDate          DATE,
     description         TEXT,
     quote               DOUBLE,
