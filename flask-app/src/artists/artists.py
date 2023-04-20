@@ -23,8 +23,8 @@ def get_artists():
 # Get artist detail for artist with particular artistID
 @artists.route('/<artistID>', methods=['GET'])
 def get_specific_artist(artistID):
-    query = 'select firstName, lastName, email, link1, link2, link3, link4, bio, CommissionTypes.name as commissionType, artistID '
-    query += 'from Artists join CommissionTypes using (artistID) '
+    query = 'select firstName, lastName, email, link1, link2, link3, link4, bio '
+    query += 'from Artists '
     query += 'where artistID = {0}'.format(artistID)
 
     cursor = db.get_db().cursor()
