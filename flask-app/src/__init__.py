@@ -37,7 +37,7 @@ def create_app():
     # Register the routes that we just imported so they can be properly handled
 
     app.register_blueprint(artists, url_prefix='/artists')
-    app.register_blueprint(commission_types, url_prefix='/images')
+    app.register_blueprint(commission_types, url_prefix='/commission_types')
 
 
     return app
