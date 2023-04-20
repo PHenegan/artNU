@@ -76,16 +76,21 @@ def cancelOrder(orderID):
 def makeOrder():
     req_data = request.get_json()
 
-    quote = req_data['quote']
-
     clientId = req_data['clientID']
+    quote = req_data['quote']
+    description = req_data['description']
+    typeID = req_data['typeID']
+    finishDate = req_data['finishDate']
+    
+    cursor = db.get_db().cursor()
+    cursor.execute("insert into Orders (clientID, quote, description, typeID, name, finishDate)")
 
     streetAddr = req_data['streetAddr']
     state = req_data['state']
+    country = req_data['country']
+    zipCode = req_data['zipCode']
 
     
-    cursor = db.get_db().cursor()
-
 
 
     return "Success"
