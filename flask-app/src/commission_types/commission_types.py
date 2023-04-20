@@ -40,7 +40,7 @@ def get_artist_commission_images(artistID):
 @commission_types.route('/tags/<tagName>', methods=['GET'])
 def get_commission_tags(tagName):
     cursor = db.get_db().cursor
-    cursor.execute('Select T.name as tag_name, A.firstName as artist_first_name, A.lastName as artist_last_name, C.name as commission_type, minPrice' 
+    cursor.execute('Select T.tagName, A.firstName as artist_first_name, A.lastName as artist_last_name, C.name as commission_type, minPrice' 
                    + ' From CommissionTypes C join Comm_Tag CT on C.typeID = CT.typeID join Tags T on CT.tagName = T.tagName join Artists A on C.artistID = A.artistID'
                    + ' where T.tagName = {0}'.format(tagName))
     row_headers = [x[0] for x in cursor.description]
