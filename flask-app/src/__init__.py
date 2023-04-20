@@ -32,12 +32,16 @@ def create_app():
     # Import the various routes
     from src.views import views
     from src.artists.artists import artists
+    from src.commission_types.commission_types import commission_types
     from src.images.images import images
+    from src.clients.clients import clients
 
     # Register the routes that we just imported so they can be properly handled
 
     app.register_blueprint(artists, url_prefix='/artists')
+    app.register_blueprint(commission_types, url_prefix='/commission_types')
     app.register_blueprint(images, url_prefix='/images')
+    app.register_blueprint(clients, url_prefix='/clients')
 
 
     return app
