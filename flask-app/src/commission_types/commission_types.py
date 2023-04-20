@@ -18,14 +18,13 @@ def get_commission_types():
 
     return jsonify(json_data)
 
-# Get a portfolio of the specified artist's commission types
+# Get a portfolio of the specified artist's images
 @commission_types.route('/artist/<artistID>', methods=['GET'])
 def get_artist_commission_images(artistID):
     cursor = db.get_db().cursor()
-    # this line needs to be changed, not sure what exactly we want from the database based on the rest api matrix description
-    cursor.execute('Select a.firstName as artist_first_name, a.lastName as artist_last_name, c.name as comm_types, description, minPrice, maxPrice, l.name as license_name' +
-    ' from Artists as a join CommissionTypes as c using (artistID) join Licenses as l using (licenseID) '
-    '+ where a.artistID = {0};'.format(artistID))
+    cursor.execute('Select I.location'
+ + ' from Artists as a join CommissionTypes as c using (artistID) join DigitalImages DI on c.typeID = DI.typeID join ImageFiles I on DI.imageID = I.imageID'
+ + ' where a.artistID = {};'.format(artistID))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
