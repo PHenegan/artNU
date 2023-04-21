@@ -121,7 +121,7 @@ def add_artist():
     artist_terms = req_data['termsOfService']
 
     # insert statement
-    insert = 'INSERT INTO Artists(email, firstName, lastName, bio, link1, link2, link3, link4, termsOfService) Values(\'{0}\', \'{1}\', \'{2}\', \'{3}\', \'{4}\', \'{5}\', \'{6}\', \'{7}\', \'{8}\')'.format(artist_first, artist_last, artist_email, artist_bio, artist_link1, artist_link2, artist_link3, artist_link4, artist_terms);
+    insert = 'INSERT INTO Artists(firstName, lastName, email, bio, link1, link2, link3, link4, termsOfService) Values(\'{0}\', \'{1}\', \'{2}\', \'{3}\', \'{4}\', \'{5}\', \'{6}\', \'{7}\', \'{8}\')'.format(artist_first, artist_last, artist_email, artist_bio, artist_link1, artist_link2, artist_link3, artist_link4, artist_terms);
 
     current_app.logger.info(insert) 
 
@@ -247,13 +247,13 @@ def update_specific_artist(artistID):
 
     query = 'update Artists '
     query += 'set firstName = \'{0}\', lastName = \'{1}\', email = \'{2}\', '.format(first, last, email)
-    query += 'bio = \'{0}\', link1 = \'{1}\', link2 = \'{2}\', link3 = \'{3}\', link4 = \'{4}\''.format(bio, link1, link2, link3, link4)
-    query += 'termsOfService = \'{0}\', '.format(terms)
-    query += 'where artistID = {0}'.format(artistID)
+    query += 'bio = \'{0}\', link1 = \'{1}\', link2 = \'{2}\', link3 = \'{3}\', link4 = \'{4}\', '.format(bio, link1, link2, link3, link4)
+    query += 'termsOfService = \'{0}\' '.format(terms)
+    query += 'where artistID = {0};'.format(artistID)
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    
+    db.get_db().commit()
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
