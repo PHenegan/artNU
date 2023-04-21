@@ -118,7 +118,7 @@ def add_artist():
     artist_link2 = req_data['link2']
     artist_link3 = req_data['link3']
     artist_link4 = req_data['link4']
-    artist_terms = req_data['termsofService']
+    artist_terms = req_data['termsOfService']
 
     # insert statement
     insert = 'INSERT INTO Artists(email, firstName, lastName, bio, link1, link2, link3, link4, termsOfService) Values(\'{0}\', \'{1}\', \'{2}\', \'{3}\', \'{4}\', \'{5}\', \'{6}\', \'{7}\', \'{8}\')'.format(artist_first, artist_last, artist_email, artist_bio, artist_link1, artist_link2, artist_link3, artist_link4, artist_terms);
