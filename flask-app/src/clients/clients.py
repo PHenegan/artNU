@@ -103,34 +103,13 @@ def makeOrder():
     db.get_db().commit()
     return "Success"
 
-# Given the ID of an image, get the artist information from the image's creator
-# NOTE: DOESN'T WORK YET
-@clients.route('/images/<imageID>', methods=['GET'])
-def getImageCreator(imageID):
-    cursor = db.get_db().cursor()
-
-    query = "select firstName, lastName, email, bio, artistID from Artists"
-    query += "join CommissionTypes using (artistID) join DigitalImages using (typeID)"
-    query += "where imageID = {0}".format(imageID)
-
-    cursor.execute(query)
-    row_headers = [x[0] for x in cursor.description]
-    json_data = []
-    theData = cursor.fetchall()
-    for row in theData:
-        json_data.append(dict(zip(row_headers, row)))
-    the_response = make_response(jsonify(json_data))
-    the_response.status_code = 200
-    the_response.mimetype = 'application/json'
-    return the_response
-
 @clients.route('/commissions/<tag>/<minPrice>/<maxPrice>', methods = ['GET'])
 def getSearchImages(tag, minPrice, maxPrice):
     cursor = db.get_db().cursor()
-    query = "select distinct imageID, location, title, minPrice, maxPrice, firstName, lastName, artistID, email "
+    query = "select distinct imageID, location, title, CommissionTypes.description, minPrice, maxPrice, firstName, lastName, artistID, email "
     query += "from Artists join CommissionTypes using (artistID) join DigitalImages using (typeID) " 
     query += "join ImageFiles using (imageID) join Comm_Tag using (typeID) "
-    query += "where tagName = '{0}' and minPrice > {1} and maxPrice < {2}".format(tag)
+    query += "where tagName like '%{0}%' and minPrice > {1} and maxPrice < {2}".format(tag, minPrice, maxPrice)
 
     cursor.execute(query)
     row_headers = [x[0] for x in cursor.description]
@@ -143,3 +122,41 @@ def getSearchImages(tag, minPrice, maxPrice):
     the_response.mimetype = 'application/json'
     return the_response
 
+@clients.route('/commissions/<minPrice>/<maxPrice>', methods=['GET'])
+def getSearchImagesNoTags(minPrice, maxPrice):
+    return getSearchImages("", minPrice, maxPrice)
+
+@clients.route('/images/<imageID>/license', methods=['GET'])
+def listImageLicense(imageID):
+    cursor = db.get_db().cursor()
+
+    query = "select Licenses.name as licenseName from Licenses "
+    query += "join CommissionTypes using (licenseID) join DigitalImages using (typeID) "
+    query += "where imageID = '{0}'".format(imageID)
+
+    cursor.execute(query)
+
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+@clients.route('/tags')
+def listAllTags():
+    cursor = db.get_db().cursor()
+    cursor.execute('select tagName, type from Tags')
+
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
