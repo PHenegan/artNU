@@ -75,6 +75,8 @@ def cancelOrder(orderID):
 @clients.route('/orders', methods=['POST'])
 def makeOrder():
     req_data = request.get_json()
+    current_app.logger.info("Request data: ")
+    current_app.logger.info(req_data)
 
     clientId = req_data['clientID']
     quote = req_data['quote']
@@ -83,16 +85,22 @@ def makeOrder():
     finishDate = req_data['finishDate']
     
     cursor = db.get_db().cursor()
-    cursor.execute("insert into Orders (clientID, quote, description, typeID, name, finishDate)")
+
+    orderInsert = "insert into Orders(clientID, quote, description, typeID, finishDate) "
+    orderInsert += "values('{0}',{1}, '{2}', {3}, '{4}')".format(clientId, quote, description, typeID, finishDate)
+    cursor.execute(orderInsert)
 
     streetAddr = req_data['streetAddr']
+    city = req_data['city']
     state = req_data['state']
     country = req_data['country']
     zipCode = req_data['zipCode']
 
+    detailsInsert = "insert into OrderDetails(streetAddr, city, state, country, zipCode, orderID)"
+    detailsInsert += "values('{0}', '{1}', '{2}', '{3}', '{4}', LAST_INSERT_ID())".format(streetAddr, city, state, country, zipCode)
+    cursor.execute(detailsInsert)
     
-
-
+    db.get_db().commit()
     return "Success"
 
 # Given the ID of an image, get the artist information from the image's creator
@@ -100,7 +108,12 @@ def makeOrder():
 @clients.route('/images/<imageID>', methods=['GET'])
 def getImageCreator(imageID):
     cursor = db.get_db().cursor()
-    cursor.execute('select firstName, lastName, email, bio from Artists')
+
+    query = "select firstName, lastName, email, bio, artistID from Artists"
+    query += "join CommissionTypes using (artistID) join DigitalImages using (typeID)"
+    query += "where imageID = {0}".format(imageID)
+
+    cursor.execute(query)
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -110,3 +123,23 @@ def getImageCreator(imageID):
     the_response.status_code = 200
     the_response.mimetype = 'application/json'
     return the_response
+
+@clients.route('/commissions/<tag>/<minPrice>/<maxPrice>', methods = ['GET'])
+def getSearchImages(tag, minPrice, maxPrice):
+    cursor = db.get_db().cursor()
+    query = "select distinct imageID, location, title, minPrice, maxPrice, firstName, lastName, artistID, email "
+    query += "from Artists join CommissionTypes using (artistID) join DigitalImages using (typeID) " 
+    query += "join ImageFiles using (imageID) join Comm_Tag using (typeID) "
+    query += "where tagName = '{0}' and minPrice > {1} and maxPrice < {2}".format(tag)
+
+    cursor.execute(query)
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+

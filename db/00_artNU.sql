@@ -58,12 +58,12 @@ CREATE TABLE if NOT EXISTS CommissionTypes (
 
 CREATE TABLE IF NOT EXISTS Orders (
     orderID             INT PRIMARY KEY auto_increment,
-    workStatus          VARCHAR(15),
+    workStatus          VARCHAR(15) DEFAULT ('pending'),
     startDate           DATE DEFAULT (CURRENT_DATE),
     finishDate          DATE,
     description         TEXT,
     quote               DOUBLE,
-    paymentStatus       VARCHAR(15),
+    paymentStatus       VARCHAR(15) DEFAULT ('not received'),
     orderFileLocation   TEXT,
     typeID              INT NOT NULL,
     clientID            INT NOT NULL,
