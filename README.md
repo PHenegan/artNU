@@ -2,6 +2,10 @@
 
 artNU aims to create a space for (primarily) student artists to share their work and portfolio in an accessible manner to all kinds of clients, from other students, to organizations, to companies, etc. Artists and clients alike hold filtering capabilities on search features to cater towards each of their target audience, through price ranges, tags indicating art styles, workflow, interests, and the like. Artists’ contact info is readily available in their profiles, as well as a space to display their portfolio for potential clients to view. Artists can log and organize their incoming, ongoing, and completed commissions for both artist and client view, customizable by the artist.
 
+Our demo video can be found at the following link:
+
+https://drive.google.com/file/d/1SWUouCEBZ2VfgKwdvR014HHIx_Q2dVT9/view?usp=sharing
+
 ## How to setup and start the containers
 **Important** - you need Docker Desktop installed
 
