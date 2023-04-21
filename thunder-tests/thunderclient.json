@@ -349,5 +349,111 @@
         "value": "Success"
       }
     ]
+  },
+  {
+    "_id": "25100dad-8633-4ccd-86bc-7e49575a25a1",
+    "colId": "f7620c49-a4ba-487e-aa86-05f3995bb657",
+    "containerId": "",
+    "name": "Get client from email",
+    "url": "{{address}}:{{port}}/clients/email/ccurtin29@yolasite.com",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2023-04-21T03:20:25.411Z",
+    "modified": "2023-04-21T03:25:49.330Z",
+    "headers": [],
+    "params": [],
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "[ { \"clientID\": 82, \"email\": \"ccurtin29@yolasite.com\", \"firstName\": \"Clarice\", \"lastName\": \"Curtin\" } ]"
+      }
+    ]
+  },
+  {
+    "_id": "ff04b909-3673-487e-95d0-4e979f8c0615",
+    "colId": "f7620c49-a4ba-487e-aa86-05f3995bb657",
+    "containerId": "",
+    "name": "Get client from email 2",
+    "url": "{{address}}:{{port}}/clients/email/lloughman1w@businessinsider.com",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2023-04-21T03:26:48.532Z",
+    "modified": "2023-04-21T03:27:46.598Z",
+    "headers": [],
+    "params": [],
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "isjson",
+        "value": "[ { \"clientID\": 69, \"email\": \"lloughman1w@businessinsider.com\", \"firstName\": \"Lorain\", \"lastName\": \"Loughman\" } ]"
+      }
+    ]
+  },
+  {
+    "_id": "45213d20-8866-481a-b549-92372615eb53",
+    "colId": "f7620c49-a4ba-487e-aa86-05f3995bb657",
+    "containerId": "",
+    "name": "Update client ID 1",
+    "url": "{{address}}:{{port}}/clients/1",
+    "method": "PUT",
+    "sortNum": 40000,
+    "created": "2023-04-21T03:29:40.759Z",
+    "modified": "2023-04-21T03:31:48.155Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"firstName\": \"NewFirstName\",\n  \"lastName\": \"NewLastName\",\n  \"email\": \"NewEmail\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      }
+    ]
+  },
+  {
+    "_id": "96b981eb-c01f-4bb7-972c-f7127111831c",
+    "colId": "f7620c49-a4ba-487e-aa86-05f3995bb657",
+    "containerId": "",
+    "name": "Update client ID 2",
+    "url": "{{address}}:{{port}}/clients/2",
+    "method": "PUT",
+    "sortNum": 60000,
+    "created": "2023-04-21T03:34:16.662Z",
+    "modified": "2023-04-21T03:35:35.203Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"newEmail@newEmail.com\",\n  \"firstName\": \"newFirstName\",\n  \"lastName\": \"newLastName\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      }
+    ]
   }
 ]

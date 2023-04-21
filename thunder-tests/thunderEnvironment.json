@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "_id": "cfcc50f0-b1ee-4ad9-988f-2b1fb7a1f63d",
+    "name": "testEnvironment",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2023-04-21T03:20:45.592Z",
+    "modified": "2023-04-21T03:20:45.592Z",
+    "data": [
+      {
+        "name": "port",
+        "value": "8001"
+      },
+      {
+        "name": "address",
+        "value": "localhost"
+      }
+    ]
+  }
+]
