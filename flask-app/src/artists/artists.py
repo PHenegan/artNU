@@ -121,7 +121,7 @@ def add_artist():
     artist_terms = req_data['termsofService']
 
     # insert statement
-    insert = 'INSERT INTO Artists(email, firstName, lastName, bio, link1, link2, link3, link4, termsOfService) Values({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9})'.format(artist_first, artist_last, artist_email, artist_bio, artist_link1, artist_link2, artist_link3, artist_link4, artist_terms);
+    insert = 'INSERT INTO Artists(email, firstName, lastName, bio, link1, link2, link3, link4, termsOfService) Values(\'{0}\', \'{1}\', \'{2}\', \'{3}\', \'{4}\', \'{5}\', \'{6}\', \'{7}\', \'{8}\')'.format(artist_first, artist_last, artist_email, artist_bio, artist_link1, artist_link2, artist_link3, artist_link4, artist_terms);
 
     current_app.logger.info(insert) 
 
@@ -147,7 +147,7 @@ def add_commission_type(artistID):
     imageID = req_data['description']
 
     # insert statement
-    insert = 'INSERT INTO CommissionTypes(name, description, minPrice, maxPrice, licenseID, imageID, artistID) Values({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7})'.format(name, description, minPrice, maxPrice, licenseID, imageID, artistID)
+    insert = 'INSERT INTO CommissionTypes(name, description, minPrice, maxPrice, licenseID, imageID, artistID) Values(\'{0}\', \'{1}\', {2}, {3}, {4}, {5}, {6}, {7})'.format(name, description, minPrice, maxPrice, licenseID, imageID, artistID)
 
     current_app.logger.info(insert) 
 
@@ -172,7 +172,7 @@ def add_orders(artistID):
     clientID = req_data['clientID']
 
     # insert statement
-    insert = 'INSERT INTO Orders(workStatus, description, quote, paymentStatus, typeID, clientID) Values(\'pending\', {0}, {1}, \'not received\', {2}, {3});'.format(description, quote, paymentStatus, typeID, clientID)
+    insert = 'INSERT INTO Orders(workStatus, description, quote, paymentStatus, typeID, clientID) Values(\'pending\', \'{0\'}, \'{1\'}, \'not received\', {2}, {3});'.format(description, quote, paymentStatus, typeID, clientID)
 
     current_app.logger.info(insert) 
 
@@ -195,8 +195,8 @@ def add_comm_tag(artistID):
     tagType = req_data['type']
 
     # insert statement
-    insert = 'INSERT IGNORE INTO Tags(tagName, type) Value({0}, {1})'
-    + 'INSERT INTO Comm_Tag(typeID, tagName) Values({2}, {0})'.format(tagName, tagType, typeID)
+    insert = 'INSERT IGNORE INTO Tags(tagName, type) Value(\'{0\'}, {1})'
+    + 'INSERT INTO Comm_Tag(typeID, tagName) Values({2}, \'{0\'})'.format(tagName, tagType, typeID)
 
     current_app.logger.info(insert) 
 
@@ -218,8 +218,8 @@ def add_denylist(artistID):
     tagType = req_data['type']
 
     # insert statement
-    insert = 'INSERT IGNORE INTO Tags(tagName, type) Value({0}, {1})'
-    + 'INSERT INTO Deny_List(artistID, tagName) Values({2}, {0})'.format(tagName, tagType, artistID)
+    insert = 'INSERT IGNORE INTO Tags(tagName, type) Value(\'{0\'}, {1})'
+    + 'INSERT INTO Deny_List(artistID, tagName) Values({2}, \'{0\'})'.format(tagName, tagType, artistID)
 
     current_app.logger.info(insert) 
 

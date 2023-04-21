@@ -53,7 +53,7 @@ CREATE TABLE if NOT EXISTS CommissionTypes (
     CONSTRAINT fk_comm_artist FOREIGN KEY (artistID)
         REFERENCES Artists(artistID)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT
+        ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Orders (
