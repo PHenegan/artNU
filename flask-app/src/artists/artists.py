@@ -144,10 +144,9 @@ def add_commission_type(artistID):
     minPrice = req_data['minPrice']
     maxPrice = req_data['maxPrice']
     licenseID = req_data['licenseID']
-    imageID = req_data['description']
 
     # insert statement
-    insert = 'INSERT INTO CommissionTypes(name, description, minPrice, maxPrice, licenseID, imageID, artistID) Values(\'{0}\', \'{1}\', {2}, {3}, {4}, {5}, {6}, {7})'.format(name, description, minPrice, maxPrice, licenseID, imageID, artistID)
+    insert = 'INSERT INTO CommissionTypes(name, description, minPrice, maxPrice, licenseID, artistID) Values(\'{0}\', \'{1}\', {2}, {3}, {4}, {5});'.format(name, description, minPrice, maxPrice, licenseID, artistID)
 
     current_app.logger.info(insert) 
 
@@ -168,11 +167,11 @@ def add_orders(artistID):
     description = req_data['description']
     quote = req_data['quote']
     paymentStatus = req_data['paymentStatus']
-    typeID = req_data['typeID']
+    typeName = req_data['typeName']
     clientID = req_data['clientID']
 
     # insert statement
-    insert = 'INSERT INTO Orders(workStatus, description, quote, paymentStatus, typeID, clientID) Values(\'pending\', \'{0\'}, \'{1\'}, \'not received\', {2}, {3});'.format(description, quote, paymentStatus, typeID, clientID)
+    insert = 'INSERT INTO Orders(workStatus, description, quote, paymentStatus, typeID, clientID) Values(\'pending\', \'{0}\', \'{1}\', \'{2}\', (SELECT CT.typeID from CommissionTypes CT join Artists A using (artistID) where A.artistID = {3} and CT.name = \'{4}\'), {5});'.format(description, quote, paymentStatus, artistID, typeName, clientID)
 
     current_app.logger.info(insert) 
 
