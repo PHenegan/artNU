@@ -318,7 +318,7 @@ def delete_commission_type(artistID):
     typeID = req_data['typeID']
 
     # query statement
-    query = 'DELETE from CommissionType where typeID = {}'.format(typeID)
+    query = 'DELETE from CommissionTypes where typeID = {}'.format(typeID)
 
     current_app.logger.info(query) 
 
@@ -380,7 +380,7 @@ def delete_orders(artistID):
     orderID = req_data['orderID']
 
     # query statement
-    query = 'DELETE from Orders where orderID = {} and artistID = {}'.format(orderID, artistID)
+    query = 'DELETE from Orders where orderID = {}'.format(orderID, artistID)
 
     current_app.logger.info(query) 
 

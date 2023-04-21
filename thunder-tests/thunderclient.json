@@ -46,25 +46,11 @@
     "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
     "containerId": "",
     "name": "Get Artists",
-    "url": "localhost:8001/artists/artists",
+    "url": "localhost:8001/artists/",
     "method": "GET",
     "sortNum": 10000,
     "created": "2023-04-18T19:17:16.762Z",
-    "modified": "2023-04-19T17:10:40.335Z",
-    "headers": [],
-    "params": [],
-    "tests": []
-  },
-  {
-    "_id": "f0fc17ff-ca06-4874-a74c-8cfa90077d7b",
-    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
-    "containerId": "",
-    "name": "Get Artists Using ID",
-    "url": "localhost:8001/artists/<artistID>",
-    "method": "GET",
-    "sortNum": 20000,
-    "created": "2023-04-18T19:18:12.236Z",
-    "modified": "2023-04-19T16:12:04.950Z",
+    "modified": "2023-04-21T02:55:17.446Z",
     "headers": [],
     "params": [],
     "tests": [
@@ -73,6 +59,39 @@
         "custom": "",
         "action": "equal",
         "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": ">=",
+        "value": "100"
+      }
+    ]
+  },
+  {
+    "_id": "f0fc17ff-ca06-4874-a74c-8cfa90077d7b",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
+    "containerId": "",
+    "name": "Get Artists Using ID",
+    "url": "localhost:8001/artists/1",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2023-04-18T19:18:12.236Z",
+    "modified": "2023-04-21T02:55:38.701Z",
+    "headers": [],
+    "params": [],
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "Sieghart"
       }
     ]
   },
@@ -81,42 +100,81 @@
     "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
     "containerId": "",
     "name": "Get All Denied Tags",
-    "url": "localhost:8001/artists/<artistID>/denylist",
+    "url": "localhost:8001/artists/1/denylist",
     "method": "GET",
     "sortNum": 40000,
     "created": "2023-04-19T16:13:34.340Z",
-    "modified": "2023-04-19T17:10:09.887Z",
+    "modified": "2023-04-21T02:56:12.560Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "didactic"
+      }
+    ]
   },
   {
     "_id": "3a536117-6a7f-4e27-8656-3a632c34bffe",
     "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
     "containerId": "",
-    "name": "Get All Comission Types",
-    "url": "localhost:8001/artists/<artistID>/commission_types",
+    "name": "Get All Commission Types",
+    "url": "localhost:8001/artists/1/commission_types",
     "method": "GET",
     "sortNum": 50000,
     "created": "2023-04-19T16:14:42.830Z",
-    "modified": "2023-04-19T16:15:06.835Z",
+    "modified": "2023-04-21T02:56:50.795Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": ">=",
+        "value": "2"
+      }
+    ]
   },
   {
     "_id": "754793fb-12ff-4fc0-8e12-3dbe22b30e09",
     "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
     "containerId": "",
     "name": "Get All Orders",
-    "url": "localhost:8001/artists/<artistID>/orders",
+    "url": "localhost:8001/artists/1/orders",
     "method": "GET",
     "sortNum": 70000,
     "created": "2023-04-19T16:15:36.937Z",
-    "modified": "2023-04-19T16:16:22.720Z",
+    "modified": "2023-04-21T02:57:19.736Z",
     "headers": [],
     "params": [],
-    "tests": []
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "contains",
+        "value": "rutrum"
+      }
+    ]
   },
   {
     "_id": "919865fe-2c3c-48df-91e8-5bf9eda995e8",
@@ -127,14 +185,169 @@
     "method": "POST",
     "sortNum": 80000,
     "created": "2023-04-19T16:39:49.746Z",
-    "modified": "2023-04-19T17:09:20.056Z",
+    "modified": "2023-04-21T02:59:31.159Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"artistID\": 30976,\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Lynn\",\n  \"email\": \"sarahlynn@gmail.com\",\n  \"bio\": \"Hi y'all! I'm Sarah!\",\n  \"link1\": \"\",\n  \"link2\": \"\",\n  \"link3\": \"\",\n  \"link4\": \"\",\n  \"termsofService\": \"All pieces take at least 3 months!\"\n}",
+      "raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Lynn\",\n  \"email\": \"sarahlynn@gmail.com\",\n  \"bio\": \"Hi yall! Im Sarah!\",\n  \"link1\": \".com\",\n  \"link2\": \".net\",\n  \"link3\": \".pog\",\n  \"link4\": \".champ\",\n  \"termsOfService\": \"All pieces take at least 3 months!\"\n}",
       "form": []
     },
     "tests": []
+  },
+  {
+    "_id": "968b8846-047d-4029-bae0-42109368238e",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
+    "containerId": "",
+    "name": "Add New Commission Type",
+    "url": "localhost:8001/artists/1/commission_types",
+    "method": "POST",
+    "sortNum": 90000,
+    "created": "2023-04-21T02:59:45.835Z",
+    "modified": "2023-04-21T03:04:15.842Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\":\"portrait\",\n  \"description\":\"I draw an oil painting of you\",\n  \"minPrice\":\"300.0\",\n  \"maxPrice\":\"1000.00\",\n  \"licenseID\":\"1\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      }
+    ]
+  },
+  {
+    "_id": "60c71257-d7f6-490e-9a3e-ff609e608474",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
+    "containerId": "",
+    "name": "Update Order",
+    "url": "localhost:8001/artists/1/orders",
+    "method": "PUT",
+    "sortNum": 120000,
+    "created": "2023-04-21T03:04:28.781Z",
+    "modified": "2023-04-21T03:09:08.403Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"workStatus\":\"in-progress\",\n  \"startDate\":\"2022-12-1\",\n  \"finishDate\":\"2023-3-5\",\n  \"quote\":\"55\",\n  \"paymentStatus\":\"received\",\n  \"orderFileLocation\":\"imgur.com\",\n  \"orderID\":\"99\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      }
+    ]
+  },
+  {
+    "_id": "99440873-71c8-42fe-9487-3265a4d35385",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
+    "containerId": "",
+    "name": "Add New Order",
+    "url": "localhost:8001/artists/1/orders",
+    "method": "POST",
+    "sortNum": 110000,
+    "created": "2023-04-21T03:06:59.672Z",
+    "modified": "2023-04-21T03:06:59.672Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"description\":\"I draw an oil painting of you\",\n  \"quote\":\"550.0\",\n  \"paymentStatus\":\"received\",\n  \"typeName\":\"rutrum\",\n  \"clientID\":\"1\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      }
+    ]
+  },
+  {
+    "_id": "8b226cfe-a749-4c5b-b847-336432d12d80",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
+    "containerId": "",
+    "name": "Delete Artist",
+    "url": "localhost:8001/artists/101",
+    "method": "DELETE",
+    "sortNum": 130000,
+    "created": "2023-04-21T03:09:45.098Z",
+    "modified": "2023-04-21T03:09:57.627Z",
+    "headers": [],
+    "params": [],
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      }
+    ]
+  },
+  {
+    "_id": "3342e8f1-ec3c-4509-a9cc-6da2bcc54240",
+    "colId": "30c358d9-613d-4fdf-88bb-bb09154f32a0",
+    "containerId": "",
+    "name": "Delete Order",
+    "url": "localhost:8001/artists/1/orders",
+    "method": "DELETE",
+    "sortNum": 140000,
+    "created": "2023-04-21T03:10:11.905Z",
+    "modified": "2023-04-21T03:15:02.284Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"orderID\":\"101\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "res-code",
+        "custom": "",
+        "action": "equal",
+        "value": "200"
+      },
+      {
+        "type": "res-body",
+        "custom": "",
+        "action": "equal",
+        "value": "Success"
+      }
+    ]
   }
 ]
