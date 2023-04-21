@@ -243,26 +243,19 @@ def update_specific_artist(artistID):
     link2 = req_data['link2']
     link3 = req_data['link3']
     link4 = req_data['link4']
-    terms = req_data['termsofService']
+    terms = req_data['termsOfService']
 
     query = 'update Artists '
     query += 'set firstName = \'{0}\', lastName = \'{1}\', email = \'{2}\', '.format(first, last, email)
     query += 'bio = \'{0}\', link1 = \'{1}\', link2 = \'{2}\', link3 = \'{3}\', link4 = \'{4}\', '.format(bio, link1, link2, link3, link4)
     query += 'termsOfService = \'{0}\' '.format(terms)
-    query += 'where artistID = {0};'.format(artistID)
+    query += 'where artistID = {0}'.format(artistID)
 
     cursor = db.get_db().cursor()
     cursor.execute(query)
-    db.get_db().commit()
-    row_headers = [x[0] for x in cursor.description]
-    json_data = []
-    theData = cursor.fetchall()
-    for row in theData:
-        json_data.append(dict(zip(row_headers, row)))
 
-    response = make_response(jsonify(json_data))
-    response.status_code = 200
-    return response
+    db.get_db().commit()
+    return "Success"
 
 # Update an order in an artist commission list
 @artists.route('/<artistID>/orders', methods=['PUT'])

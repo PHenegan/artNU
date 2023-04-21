@@ -49,7 +49,7 @@ CREATE TABLE if NOT EXISTS CommissionTypes (
     CONSTRAINT fk_comm_license FOREIGN KEY (licenseID)
         REFERENCES Licenses(licenseID)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT,
+        ON DELETE CASCADE,
     CONSTRAINT fk_comm_artist FOREIGN KEY (artistID)
         REFERENCES Artists(artistID)
         ON UPDATE CASCADE
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS Orders (
     CONSTRAINT fk_orders_client FOREIGN KEY (clientID)
         REFERENCES Clients(clientID)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT,
+        ON DELETE CASCADE,
     CONSTRAINT fk_orders_type FOREIGN KEY (typeID)
         REFERENCES CommissionTypes(typeID)
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS DigitalImages (
     CONSTRAINT fk_image_comm FOREIGN KEY (typeID)
         REFERENCES CommissionTypes(typeID)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT
+        ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS ImageFiles (
